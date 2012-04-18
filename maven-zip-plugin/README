@@ -1,0 +1,94 @@
+This is the file README for the maven-zip plugin, zip files done
+my way.
+
+The maven-zip-plugin is a maven utility plugin which aids with
+the software packaging phase.  Similar in nature to both the
+maven-jar and maven-assembly plugin, this plugin differs by creating
+a ZIP distribution that is ready to be unzipped and run using the
+java -jar command switch.  This includes making sure that any maven
+dependencies are placed in a local (to the zip file root) lib dir
+and the MANIFEST for the executable jar is correct.
+
+Another difference between this plugin and the assembly plugin is
+that this process does not require a descriptor.
+
+This plugin is about java packaging done my way.  I like control over
+how software is packaged while keeping things as simple as possilbe.
+
+To use the plugin:
+
+Within the configuration section of the plugin (inside the
+pom.xml), directories and files may be added to the archive using the
+following XML notation:
+
+<include>
+  <directory>src/main/webapp/</directory>
+  <file>.some_other_hidden_file</file>
+</include>
+
+This would include the src/main/webapp directory (and all children)
+as well as the .some_other_hidden_file located at the same level as
+the pom.xml file.
+
+To exclude any files or directories that might otherwise be included
+when using the <include> element, use the following:
+
+<excludeRegexList>
+  <param>.*svn</param>
+  <param>.*git</param>
+  <param>.*doc</param>
+</excludeRegexList>
+
+This will exclude any files/directories whose names match the regular 
+expression(s) listed in the <param> elements.
+
+Additionally, if building a executable JAR file, (known within the
+plugin as the primaryArtifact), one can either generate it using the
+current project by using:
+
+<generatePrimaryArtifact>true</generatePrimaryArtifact>
+
+or, the primaryArtifact can be referenced from dependency within
+the current project using:
+
+<primaryArtifactId>fs-server</primaryArtifactId>
+
+The latter must be a dependency within the current project, and will
+be modified by the plugin to ensure that the resulting JAR can be
+executed.
+
+Lastly, like the maven-jar plugin, manifest information which is
+written into the primaryArtifact can be customized using the following
+notation:
+
+<archive>
+  <manifest>
+    <mainClass>com.yourcompany.YourMainClass</mainClass>
+    <addClasspath>true</addClasspath>
+    <classpathPrefix>lib/</classpathPrefix>
+    <!-- options
+    <packageName>com.mycompany.app</packageName>
+    <manifestFile>/path/to/custom/MANIFEST.MF</manifestFile>
+    <addExtensions/>
+    -->
+  </manifest>
+  <manifestEntries>
+    <mode>development</mode>
+    <url>${pom.url}</url>
+  </manifestEntries>
+</archive>
+
+To place MAVEN into debug state, simply set the following environmental variable:
+MAVEN_OPTS='-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8000'
+
+Please use Github to report any issues or submit feature requests.
+
+Issues / Bugs reported on Github should ideally include:
+
+    * The complete output of executing maven.
+    * The pom.xml the plugin is being used within.
+    * A sample of what you would like your resulting ZIP artifact to look like.
+    * Pull requests should have both implementation and supporting test cases.
+
+Any other questions, or legitimate greviences send eletronic mail to:
+   Randy Secrist <randy.secrist@gmail.com>

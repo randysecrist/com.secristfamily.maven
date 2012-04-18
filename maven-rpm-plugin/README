@@ -1,0 +1,16 @@
+This is the file README for the maven-rpm plugin.
+
+This plugin depends on the rpmbuild, cp, rsync, install, mv, and other sytem
+commands.  Most of these commands are installed as part of standard linux
+packages, however you may want to verify that the rpm-build package is installed
+as some distributions leave that out.
+
+Please send all comments and bug reports by electronic mail to:
+   Randy Secrist <randy.secrist@gmail.com>
+
+or, if this fails, to randy.secrist@gmail.com.
+Bug reports should ideally include:
+
+    * The complete output of executing maven.
+    * The pom.xml the plugin is being used within.
+    * A sample of what you would like your resulting RPM artifact to look like.
