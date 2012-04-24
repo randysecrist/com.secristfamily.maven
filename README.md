@@ -6,11 +6,11 @@ with the packaging and deployment of java applications and libraries.
 Below is an inventory of what can be found within: 
 
 1.  [Timestamp Plugin](https://github.com/randysecrist/com.secristfamily.maven/tree/master/maven-timestamp-plugin)
-  Tags jar files with version information so [getSpecificationVersion](http://docs.oracle.com/javase/6/docs/api/java/lang/Package.html) and friends will work.
+  * Tags jar files with version information so [getSpecificationVersion](http://docs.oracle.com/javase/6/docs/api/java/lang/Package.html#getSpecificationVersion%28%29) and friends will work.
 2.  [Simple Zip Plugin](https://github.com/randysecrist/com.secristfamily.maven/tree/master/maven-zip-plugin)
-  Builds a standard zip distribution that contains a java executable jar file.  Supports a lib directory and a matching MANIFEST file.
+  * Builds a standard zip distribution that contains a java executable jar file.  Supports a lib directory and a matching MANIFEST file.
 3.  [Simple RPM Plugin](https://github.com/randysecrist/com.secristfamily.maven/tree/master/maven-rpm-plugin)
-  Same as the Zip distribution, but more advanced RPM scripting hooks with less configuration than other RPM plugins in the wild.
+  * Same as the Zip distribution, but more advanced RPM scripting hooks with less configuration than other RPM plugins in the wild.
 
 ## Installation
 
