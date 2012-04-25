@@ -1,15 +1,79 @@
 <?xml version="1.0"?><project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.secristfamily</groupId>
-  <artifactId>maven</artifactId>
+  <groupId>com.secristfamily.maven</groupId>
+  <artifactId>parent</artifactId>
   <packaging>pom</packaging>
   <version>1.0.0-SNAPSHOT</version>
-  <name>Secrist Maven Parent Pom</name>
+
+  <name>Secrist Maven Parent POM</name>
+  <description>A set of common build settings for each maven plugin.</description>
+  <url>https://github.com/randysecrist/com.secristfamily.maven</url>
 
   <modules>
     <module>maven-timestamp-plugin</module>
     <module>maven-zip-plugin</module>
-    <!-- <module>maven-rpm-plugin</module> -->
   </modules>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Randy Secrist</name>
+      <email>randy.secrist@gmail.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/randysecrist/com.secristfamily.maven.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/randysecrist/com.secristfamily.maven.git</developerConnection>
+    <url>http://github.com/randysecrist/com.secristfamily.maven</url>
+  </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <excludePackageNames>com.maven.plugin</excludePackageNames>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
  
 </project>
