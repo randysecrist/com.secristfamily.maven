@@ -11,43 +11,11 @@
   <description>Tags java jar files with version information using build date.</description>
   <url>https://github.com/randysecrist/com.secristfamily.maven</url>
 
-
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <name>Randy Secrist</name>
-      <email>randy.secrist@gmail.com</email>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git:ssh://git@github.com/randysecrist/com.secristfamily.maven.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/randysecrist/com.secristfamily.maven.git</developerConnection>
-    <url>http://github.com/randysecrist/com.secristfamily.maven</url>
-  </scm>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-    </repository>
-  </distributionManagement>
+  <parent>
+    <groupId>com.secristfamily.maven</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
 
   <dependencies>
     <dependency>
@@ -61,23 +29,5 @@
       <version>2.1.0</version>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.1</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.8.1</version>
-        <configuration>
-          <excludePackageNames>com.maven.plugin</excludePackageNames>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
 
 </project>
