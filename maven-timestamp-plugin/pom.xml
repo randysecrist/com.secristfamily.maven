@@ -25,12 +25,16 @@
       <email>randy.secrist@gmail.com</email>
     </developer>
   </developers>
-  
+
   <scm>
     <connection>scm:git:ssh://git@github.com/randysecrist/com.secristfamily.maven.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/randysecrist/com.secristfamily.maven.git</developerConnection>
     <url>http://github.com/randysecrist/com.secristfamily.maven</url>
   </scm>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
   <distributionManagement>
     <snapshotRepository>
@@ -63,6 +67,14 @@
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <excludePackageNames>com.maven.plugin</excludePackageNames>
+        </configuration>
       </plugin>
     </plugins>
   </build>
