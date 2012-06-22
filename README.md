@@ -11,6 +11,12 @@ Below is an inventory of what can be found within:
 3.  [Simple RPM Plugin](https://github.com/randysecrist/com.secristfamily.maven/tree/master/maven-rpm-plugin)
   * Same as the Zip distribution, but more advanced RPM scripting hooks with less configuration than other RPM plugins that will be found in the wild.
 
+## Why is it here?
+
+For standalone applications, I wanted things packaged my way without having to add lots of XML configuration outside of the pom.xml.
+
+Also, I hate being told what to do.
+
 ## Installation
 
 Each of these is inserted into a maven pom.xml file under the plugins section.  See each individual plugin for more details on the various configuration options.
