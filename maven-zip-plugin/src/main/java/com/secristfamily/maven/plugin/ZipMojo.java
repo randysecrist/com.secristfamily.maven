@@ -29,7 +29,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * The Maven project.
    * 
-   * @parameter expression="${project}"
+   * @parameter default-value="${project}"
    * @required
    * @readonly
    */
@@ -43,7 +43,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * To look up Archiver/UnArchiver implementations
    * 
-   * @parameter expression="${component.org.codehaus.plexus.archiver.manager.ArchiverManager}"
+   * @component role="org.codehaus.plexus.archiver.manager.ArchiverManager"
    * @required
    */
   protected ArchiverManager archiverManager;
@@ -51,7 +51,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * Directory containing the generated ZIP. (target/)
    * 
-   * @parameter expression="${project.build.directory}"
+   * @parameter default-value="${project.build.directory}"
    * @required
    */
   private File outputDirectory;
@@ -81,7 +81,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * Directory containing the compiled classes. (target/classes)
    * 
-   * @parameter expression="${project.build.outputDirectory}"
+   * @parameter default-value="${project.build.outputDirectory}"
    * @required
    */
   private File classesDirectory;
@@ -89,7 +89,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * Flag which indicates if the mojo should incorporate dependencies into the ZIP archive.
    * 
-   * @parameter expression="true"
+   * @parameter default-value="true"
    */
   private boolean addDependencies;
 
@@ -97,7 +97,7 @@ public class ZipMojo extends AbstractMojo {
    * Flag which indicates to the mojo if it should generate the primary artifact from the current
    * project.
    * 
-   * @parameter expression="false"
+   * @parameter default-value="false"
    */
   private boolean generatePrimaryArtifact;
 
@@ -111,7 +111,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * Name of the generated ZIP.
    * 
-   * @parameter alias="zipName" expression="${project.build.finalName}"
+   * @parameter alias="zipName" default-value="${project.build.finalName}"
    * @required
    */
   private String finalName;
@@ -127,7 +127,7 @@ public class ZipMojo extends AbstractMojo {
   /**
    * The Jar archiver.
    * 
-   * @parameter expression="${component.org.codehaus.plexus.archiver.Archiver#jar}"
+   * @component role="org.codehaus.plexus.archiver.Archiver" roleHint="jar"
    * @required
    */
   private JarArchiver jarArchiver;
