@@ -46,16 +46,16 @@
   </properties>
 
   <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>Sonatype Nexus Snapshots</name>
-      <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
     <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-      <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      <id>repo</id>
+      <name>Randy's Releases</name>
+      <url>https://github.com/randysecrist/randysecrist-mvn-repo/raw/master/releases</url>
     </repository>
+    <snapshotRepository>
+      <id>snapshot-repo</id>
+      <name>Randy's Snapshots</name>
+      <url>https://github.com/randysecrist/randysecrist-mvn-repo/raw/master/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <build>
@@ -96,5 +96,5 @@
       </plugin>
     </plugins>
   </build>
- 
+
 </project>
