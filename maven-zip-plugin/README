@@ -13,7 +13,7 @@ Another difference between this plugin and the assembly plugin is
 that this process does not require a descriptor.
 
 This plugin is about java packaging done my way.  I like control over
-how software is packaged while keeping things as simple as possilbe.
+how software is packaged while keeping things as simple as possible.
 
 To use the plugin:
 
