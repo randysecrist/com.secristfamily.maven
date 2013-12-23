@@ -353,7 +353,7 @@ public class ZipMojo extends AbstractMojo {
     }
     return;
   }
-      
+
   /**
    * Retrieves all artifact dependencies.
    * 
