@@ -29,7 +29,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * The Maven project.
    * 
-   * @parameter expression="${project}"
+   * @parameter default-value="${project}"
    * @required
    * @readonly
    */
@@ -43,7 +43,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * To look up Archiver/UnArchiver implementations
    * 
-   * @parameter expression="${component.org.codehaus.plexus.archiver.manager.ArchiverManager}"
+   * @component role="org.codehaus.plexus.archiver.manager.ArchiverManager"
    * @required
    */
   protected ArchiverManager archiverManager;
@@ -51,7 +51,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * Directory containing the project.
    * 
-   * @parameter expression="${project.basedir}"
+   * @parameter default=value="${project.basedir}"
    * @required
    */
   private static File baseDirectory;
@@ -59,7 +59,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * Directory containing the generated RPM. (target/)
    * 
-   * @parameter expression="${project.build.directory}"
+   * @parameter default-value="${project.build.directory}"
    * @required
    */
   private File targetDirectory;
@@ -91,7 +91,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * Directory containing the compiled classes. (target/classes)
    * 
-   * @parameter expression="${project.build.outputDirectory}"
+   * @parameter default-value="${project.build.outputDirectory}"
    * @required
    */
   private File classesDirectory;
@@ -99,7 +99,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * Flag which indicates if the mojo should incorporate dependencies into the ZIP archive.
    * 
-   * @parameter expression="true"
+   * @parameter default-value="true"
    */
   private boolean addDependencies;
 
@@ -107,7 +107,7 @@ public class RPMMojo extends AbstractMojo {
    * Flag which indicates to the mojo if it should generate the primary artifact from the current
    * project.
    * 
-   * @parameter expression="false"
+   * @parameter default-value="false"
    */
   private boolean generatePrimaryArtifact;
 
@@ -119,9 +119,9 @@ public class RPMMojo extends AbstractMojo {
   private String primaryArtifactId;
 
   /**
-   * Name of the generated ZIP.
+   * Name of the generated RPM.
    * 
-   * @parameter alias="zipName" expression="${project.build.finalName}"
+   * @parameter alias="rpmName" default-value="${project.build.finalName}"
    * @required
    */
   private String finalName;
@@ -137,7 +137,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * The JAR archiver.
    * 
-   * @parameter expression="${component.org.codehaus.plexus.archiver.Archiver#jar}"
+   * @component role="org.codehaus.plexus.archiver.Archiver" roleHint="jar"
    * @required
    */
   private JarArchiver jarArchiver;
@@ -145,7 +145,7 @@ public class RPMMojo extends AbstractMojo {
   /**
    * The TAR archiver.
    * 
-   * @parameter expression="${component.org.codehaus.plexus.archiver.Archiver#tar}"
+   * @component role="org.codehaus.plexus.archiver.Archiver" roleHint="tar"
    * @required
    */
   private TarArchiver tarArchiver;
@@ -159,14 +159,14 @@ public class RPMMojo extends AbstractMojo {
   
   /**
    * The name portion of the output file name.
-   * @parameter expression="${project.artifactId}"
+   * @parameter default-value="${project.artifactId}"
    * @required
    */
   private String artifactId;
   
   /**
    * The version portion of the output file name.
-   * @parameter expression="${project.version}"
+   * @parameter default-value="${project.version}"
    * @required
    */
   private String version;
@@ -185,10 +185,10 @@ public class RPMMojo extends AbstractMojo {
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     getLog().info("Creating RPM...");
-    
+
     File tempDir = createTempDir();
     File rpmFile = createPackage(tempDir);
-    
+
         if (classifier != null)
             projectHelper.attachArtifact(project, "rpm", classifier, rpmFile);
         else
@@ -248,7 +248,7 @@ public class RPMMojo extends AbstractMojo {
           copyToWorkspace(tempDir, f);
         }
       }
-    }        
+    }
     return tempDir;
   }
 
@@ -271,7 +271,7 @@ public class RPMMojo extends AbstractMojo {
     try {
       // Build RPM Work Area
       rpmbuild.buildWorkArea();
-        
+
       // Generate SPEC File
       String name = getComponentName(params, artifactId);
       String rpmVersion = null;
@@ -282,7 +282,7 @@ public class RPMMojo extends AbstractMojo {
       }
       else {
         rpmVersion = version.substring(0, version.indexOf( "-" ));
-      }         
+      }
       params.put("name", name);
       params.put("version", rpmVersion);
 
@@ -293,24 +293,24 @@ public class RPMMojo extends AbstractMojo {
         else
           params.put("release", "1");
       }
-        
+
       // Suggest Prefix Location
       if (!params.containsKey("prefix")) {
         params.put("prefix", "/opt/ge/hcit/ecis");
       }
-        
+
       // Place RPM Sources
       String component_name = getComponentName(params, name);
       String install_dir = getComponentName(params, component_name);
       File sources = new File(workarea, "SOURCES/" + component_name + ".tgz");  // link name of gzip to .spec file
       this.createTARArchive(sources, tempDir, component_name + "/");
-        
+
       params.put("pombr", baseDirectory.getPath());
       rpmbuild.writeSpecFile(component_name, params, requires);
-        
+
       // Build Package
       rpmbuild.execute(component_name, false);
-        
+
       // Move to Target
       String buildArch = params.get("BuildArch");
       String artifact = component_name + "-" + rpmVersion + "-" + params.get("release") + "." + buildArch + ".rpm";
@@ -330,15 +330,15 @@ public class RPMMojo extends AbstractMojo {
     }
     return destFile;
   }
-  
+
   protected static File getPOMBR() {
     return new File(baseDirectory, "src/buildroot");
   }
-  
+
   protected static String getInstallDir(Map<String,String> params) {
     return getInstallDir(params, null);
   }
-  
+
   protected static String getInstallDir(Map<String,String> params, String def) {
     boolean exists = params.containsKey("InstallDir");
     if (def == null && !exists) {
@@ -349,11 +349,11 @@ public class RPMMojo extends AbstractMojo {
     }
     return params.get("InstallDir");
   }
-  
+
   protected static String getComponentName(Map<String,String> params) {
     return getComponentName(params, null);
   }
-  
+
   protected static String getComponentName(Map<String,String> params, String def) {
     boolean exists = params.containsKey("ComponentName");
     if (def == null && !exists) {
@@ -364,7 +364,7 @@ public class RPMMojo extends AbstractMojo {
     }
     return params.get("ComponentName");
   }
-      
+
   protected static File getJarFile(File basedir, String finalName, String classifier) {
     return getFile(basedir, finalName, classifier, ".jar");
   }
@@ -376,7 +376,7 @@ public class RPMMojo extends AbstractMojo {
       classifier = "-" + classifier;
     return new File(basedir, finalName + classifier + extension);
   }
-  
+
   /**
    * Creates a JarArchive where the contents are the specified directory.
    * 
@@ -402,7 +402,7 @@ public class RPMMojo extends AbstractMojo {
     }
     return;
   }
-  
+
   public void createTARArchive(File tarFile, File directory, String prefix) throws MojoExecutionException {
     try {
       TarCompressionMethod tcm = new org.codehaus.plexus.archiver.tar.TarArchiver.TarCompressionMethod();
@@ -417,7 +417,7 @@ public class RPMMojo extends AbstractMojo {
     }
     return;
   }
-  
+
   /**
    * Retrieves all artifact dependencies.
    * 
@@ -436,7 +436,7 @@ public class RPMMojo extends AbstractMojo {
     this.filterArtifacts(dependenciesSet);
     return dependenciesSet;
   }
-  
+
   protected void filterArtifacts(Set<Artifact> artifacts) {
     for (Iterator<Artifact> i = artifacts.iterator(); i.hasNext();) {
       Artifact a = i.next();
@@ -450,7 +450,7 @@ public class RPMMojo extends AbstractMojo {
       }
     }
   }
-  
+
   /**
    * Copies the file into the workspace directory only if it does not match the exclude regular
    * expression, if one is given.
@@ -468,7 +468,7 @@ public class RPMMojo extends AbstractMojo {
     else if (f.isFile())
       FileUtils.copyFile(f, new File(tempDir, fName));
   }
-  
+
   /**
    * Adds the dependencies of this project to a primary artifact. (Essentially combines two jar
    * files).

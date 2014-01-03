@@ -78,7 +78,7 @@ public class RPMBuild {
       }
     }
   }
-  
+
   private void writeSpecHeader(PrintWriter spec, Map<String,String> params, String[] requires) {
     if (params.containsKey("defines")) {
       String definesKey = params.get("defines");
@@ -87,7 +87,7 @@ public class RPMBuild {
         spec.printf("%%define %s\n", define);
       }
     }
-    
+
     spec.printf("Name: %s\n", params.get("name"));  // added automagically
     spec.printf("Version: %s\n", params.get("version"));  // added automagically
     spec.printf("Release: %s\n", params.get("release"));  // added automagically
@@ -124,19 +124,19 @@ public class RPMBuild {
     for (String req : requires) {
       spec.printf("Requires: %s\n", req);
     }
-    
+
     spec.printf("Source: %%{name}.tgz\n");
     spec.printf("BuildRoot: %%{_tmppath}/%%{name}-%%{version}-%%{release}\n");
-    
+
     if (params.containsKey("description")) {
       spec.printf("\n%%description\n%s\n", params.get("description"));
-    }   
+    }
   }
 
   private void writeSpecBody(PrintWriter spec, Map<String,String> params) {
     ScriptLoader loader = new ScriptLoader(getLog());
     loader.init(params);
-    
+
     // PREP
     String component_name = RPMMojo.getComponentName(params);
     String install_dir = "/" + RPMMojo.getInstallDir(params);
@@ -147,7 +147,7 @@ public class RPMBuild {
     spec.printf("%%define install_dir %s\n", install_dir);
     spec.printf("%%define pom_buildroot %s\n", RPMMojo.getPOMBR());
     spec.printf("%%define _prefix %s\n\n", params.get("prefix"));
-    
+
     spec.printf("%s\n\n", loader.getPreInstall());
     spec.printf("%s\n\n", loader.getInstall());
     spec.printf("%s\n\n", loader.getPostInstall());
@@ -156,14 +156,14 @@ public class RPMBuild {
     spec.printf("%s\n\n", loader.getVerify());
     spec.printf("%s\n\n", loader.getClean());
   }
-  
+
   /**
    * Run the external command to build the package.
    * @throws MojoExecutionException if an error occurs
    */
   protected void execute(String name, boolean needarch) throws MojoExecutionException {
     File f = new File( workarea, "SPECS" );
-      
+
     Commandline cl = new Commandline();
     cl.setExecutable( "rpmbuild" );
     cl.setWorkingDirectory( f.getAbsolutePath() );
@@ -175,7 +175,7 @@ public class RPMBuild {
       cl.createArgument().setValue( "noarch" );
     }
     cl.createArgument().setValue( name + ".spec" );
-      
+
     StreamConsumer stdout = new StdoutConsumer( getLog() );
     StreamConsumer stderr = new StderrConsumer( getLog() );
     try {
@@ -189,7 +189,7 @@ public class RPMBuild {
       throw new MojoExecutionException( "Unable to build the RPM", e );
     }
   }
-  
+
   /**
    * Consumer to receive lines sent to stdout.  The lines are logged
    * as info.
@@ -197,7 +197,7 @@ public class RPMBuild {
   private class StdoutConsumer  implements StreamConsumer {
     /** Logger to receive the lines. */
     private Log logger;
-      
+
     /**
      * Constructor.
      * @param log The logger to receive the lines
@@ -205,7 +205,7 @@ public class RPMBuild {
     public StdoutConsumer( Log log ) {
       logger = log;
     }
-      
+
     /**
      * Consume a line.
      * @param string The line to consume
@@ -214,7 +214,7 @@ public class RPMBuild {
       logger.info( string );
     }
   }
-  
+
   /**
    * Consumer to receive lines sent to stderr.  The lines are logged
    * as warnings.
@@ -222,7 +222,7 @@ public class RPMBuild {
   private class StderrConsumer  implements StreamConsumer {
     /** Logger to receive the lines. */
     private Log logger;
-      
+
     /**
      * Constructor.
      * @param log The logger to receive the lines
@@ -230,7 +230,7 @@ public class RPMBuild {
     public StderrConsumer( Log log ) {
       logger = log;
     }
-      
+
     /**
      * Consume a line.
      * @param string The line to consume
